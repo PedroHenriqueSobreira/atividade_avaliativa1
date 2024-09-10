@@ -1,0 +1,84 @@
+import java.util.Scanner;
+
+class Numeros {
+    private double[] numeros = new double[3]; 
+
+    public void setNumero(int indice, double numero) {
+        if (indice >= 0 && indice < 3) {
+            this.numeros[indice] = numero;
+        }
+    }
+
+    public double obterMaior() {
+        double maior = numeros[0];
+        for (double numero : numeros) {
+            if (numero > maior) {
+                maior = numero;
+            }
+        }
+        return maior;
+    }
+
+    public double obterMenor() {
+        double menor = numeros[0];
+        for (double numero : numeros) {
+            if (numero < menor) {
+                menor = numero;
+            }
+        }
+        return menor;
+    }
+}
+
+
+class NumerosView {
+    private Scanner scanner;
+
+    public NumerosView() {
+        this.scanner = new Scanner(System.in);
+    }
+
+    public double solicitarNumero(int indice) {
+        System.out.println("Digite o número " + (indice + 1) + ": ");
+        return scanner.nextDouble();
+    }
+
+    public void exibirMaiorMenor(double maior, double menor) {
+        System.out.println("O maior número é: " + maior);
+        System.out.println("O menor número é: " + menor);
+    }
+}
+
+
+class NumerosController {
+    private Numeros model;
+    private NumerosView view;
+
+    public NumerosController(Numeros model, NumerosView view) {
+        this.model = model;
+        this.view = view;
+    }
+
+    public void compararNumeros() {
+        for (int i = 0; i < 3; i++) {
+            double numero = view.solicitarNumero(i);
+            model.setNumero(i, numero);
+        }
+
+        double maior = model.obterMaior();
+        double menor = model.obterMenor();
+        view.exibirMaiorMenor(maior, menor);
+    }
+}
+
+
+public class Main {
+    public static void main(String[] args) {
+
+        Numeros model = new Numeros();
+        NumerosView view = new NumerosView();
+        NumerosController controller = new NumerosController(model, view);
+
+        controller.compararNumeros();
+    }
+}
