@@ -1,0 +1,88 @@
+import java.util.Scanner;
+
+class Mercadoria {
+    private double custo;
+    private double frete;
+    private double despesas;
+    private double valorVenda;
+
+    public void setCusto(double custo) {
+        this.custo = custo;
+    }
+
+    public void setFrete(double frete) {
+        this.frete = frete;
+    }
+
+    public void setDespesas(double despesas) {
+        this.despesas = despesas;
+    }
+
+    public void setValorVenda(double valorVenda) {
+        this.valorVenda = valorVenda;
+    }
+
+    public double calcularCustoTotal() {
+        return this.custo + this.frete + this.despesas;
+    }
+
+    public double calcularPercentualLucro() {
+        double custoTotal = calcularCustoTotal();
+        return ((this.valorVenda - custoTotal) / custoTotal) * 100;
+    }
+}
+
+class MercadoriaView {
+    private Scanner scanner;
+
+    public MercadoriaView() {
+        this.scanner = new Scanner(System.in);
+    }
+
+    public double solicitarValor(String mensagem) {
+        System.out.println(mensagem);
+        return scanner.nextDouble();
+    }
+
+    public void exibirResultado(double percentualLucro) {
+        System.out.printf("O percentual de lucro da mercadoria é: %.2f%%\n", percentualLucro);
+    }
+}
+
+class MercadoriaController {
+    private Mercadoria model;
+    private MercadoriaView view;
+
+    public MercadoriaController(Mercadoria model, MercadoriaView view) {
+        this.model = model;
+        this.view = view;
+    }
+
+    public void calcularLucro() {
+        double custo = view.solicitarValor("Digite o custo da mercadoria:");
+        model.setCusto(custo);
+
+        double frete = view.solicitarValor("Digite o valor do frete:");
+        model.setFrete(frete);
+
+        double despesas = view.solicitarValor("Digite o valor das despesas eventuais:");
+        model.setDespesas(despesas);
+
+        double valorVenda = view.solicitarValor("Digite o valor de venda da mercadoria:");
+        model.setValorVenda(valorVenda);
+
+        double percentualLucro = model.calcularPercentualLucro();
+        view.exibirResultado(percentualLucro);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Mercadoria model = new Mercadoria();
+        MercadoriaView view = new MercadoriaView();
+        MercadoriaController controller = new MercadoriaController(model, view);
+
+        controller.calcularLucro();
+    }
+}
