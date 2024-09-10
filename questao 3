@@ -1,0 +1,71 @@
+import java.util.Scanner;
+
+class Aluno {
+    private double[] notas = new double[4]; 
+
+    public void setNota(int indice, double nota) {
+        if (indice >= 0 && indice < 4) {
+            this.notas[indice] = nota;
+        }
+    }
+
+    public double calcularMedia() {
+        double soma = 0;
+        for (double nota : notas) {
+            soma += nota;
+        }
+        return soma 
+    }
+}
+
+
+class AlunoView {
+    private Scanner scanner;
+
+    public AlunoView() {
+        this.scanner = new Scanner(System.in);
+    }
+
+    public double solicitarNota(int indice) {
+        System.out.println("Digite a nota " + (indice + 1) + ": ");
+        return scanner.nextDouble();
+    }
+
+    public void exibirMedia(double media) {
+        System.out.printf("A média das notas é: %.2f\n", media);
+    }
+}
+
+
+class AlunoController {
+    private Aluno model;
+    private AlunoView view;
+
+    public AlunoController(Aluno model, AlunoView view) {
+        this.model = model;
+        this.view = view;
+    }
+
+    public void calcularMediaNotas() {
+        for (int i = 0; i < 4; i++) {
+            double nota = view.solicitarNota(i);
+            model.setNota(i, nota);
+        }
+
+        double media = model.calcularMedia();
+        view.exibirMedia(media);
+    }
+}
+
+
+public class Main {
+    public static void main(String[] args) {
+
+        Aluno model = new Aluno();
+        AlunoView view = new AlunoView();
+        AlunoController controller = new AlunoController(model, view);
+
+
+        controller.calcularMediaNotas();
+    }
+}
