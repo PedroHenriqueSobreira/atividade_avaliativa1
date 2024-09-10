@@ -1,0 +1,77 @@
+import java.util.Scanner;
+
+class Parede {
+    private double largura;
+    private double altura;
+    private final double consumoPorMetroQuadrado = 300.0; 
+    private final double litrosPorLata = 2000.0; 
+
+    public void setLargura(double largura) {
+        this.largura = largura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double calcularArea() {
+        return this.largura * this.altura;
+    }
+
+    public int calcularQuantidadeLatas() {
+        double area = calcularArea();
+        double consumoTotal = area * consumoPorMetroQuadrado; 
+        return (int) Math.ceil(consumoTotal 
+    }
+}
+
+class ParedeView {
+    private Scanner scanner;
+
+    public ParedeView() {
+        this.scanner = new Scanner(System.in);
+    }
+
+    public double solicitarMedida(String mensagem) {
+        System.out.println(mensagem);
+        return scanner.nextDouble();
+    }
+
+    public void exibirQuantidadeLatas(int quantidadeLatas) {
+        System.out.println("A quantidade de latas de tinta necessária é: " + quantidadeLatas);
+    }
+}
+
+class ParedeController {
+    private Parede model;
+    private ParedeView view;
+
+    public ParedeController(Parede model, ParedeView view) {
+        this.model = model;
+        this.view = view;
+    }
+
+    public void calcularLatasNecessarias() {
+        double largura = view.solicitarMedida("Digite a largura da parede (em metros):");
+        model.setLargura(largura);
+
+        double altura = view.solicitarMedida("Digite a altura da parede (em metros):");
+        model.setAltura(altura);
+
+        int quantidadeLatas = model.calcularQuantidadeLatas();
+        view.exibirQuantidadeLatas(quantidadeLatas);
+    }
+}
+
+
+public class Main {
+    public static void main(String[] args) {
+
+        Parede model = new Parede();
+        ParedeView view = new ParedeView();
+        ParedeController controller = new ParedeController(model, view);
+
+
+        controller.calcularLatasNecessarias();
+    }
+}
