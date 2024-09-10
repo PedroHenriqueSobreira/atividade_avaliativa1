@@ -1,0 +1,71 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+class Numeros {
+    private double[] numeros = new double[3]; 
+
+    public void setNumero(int indice, double numero) {
+        if (indice >= 0 && indice < 3) {
+            this.numeros[indice] = numero;
+        }
+    }
+
+    public double[] obterNumerosOrdenados() {
+        double[] numerosOrdenados = numeros.clone(); 
+        Arrays.sort(numerosOrdenados);
+        return numerosOrdenados;
+    }
+}
+
+
+class NumerosView {
+    private Scanner scanner;
+
+    public NumerosView() {
+        this.scanner = new Scanner(System.in);
+    }
+
+    public double solicitarNumero(int indice) {
+        System.out.println("Digite o número " + (indice + 1) + ": ");
+        return scanner.nextDouble();
+    }
+
+    public void exibirNumerosOrdenados(double[] numerosOrdenados) {
+        System.out.println("Os números em ordem crescente são: ");
+        for (double numero : numerosOrdenados) {
+            System.out.print(numero + " ");
+        }
+        System.out.println();
+    }
+}
+
+class NumerosController {
+    private Numeros model;
+    private NumerosView view;
+
+    public NumerosController(Numeros model, NumerosView view) {
+        this.model = model;
+        this.view = view;
+    }
+
+    public void ordenarNumeros() {
+        for (int i = 0; i < 3; i++) {
+            double numero = view.solicitarNumero(i);
+            model.setNumero(i, numero);
+        }
+
+        double[] numerosOrdenados = model.obterNumerosOrdenados();
+        view.exibirNumerosOrdenados(numerosOrdenados);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Numeros model = new Numeros();
+        NumerosView view = new NumerosView();
+        NumerosController controller = new NumerosController(model, view);
+
+        controller.ordenarNumeros();
+    }
+}
